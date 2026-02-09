@@ -5,10 +5,7 @@ import id.ac.ui.cs.advprog.eshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,7 +17,7 @@ public class ProductController {
     private ProductService service;
 
     @GetMapping("/create")
-    public String createProductpage(Model model) {
+    public String createProductPage(Model model) {
         Product product = new Product();
         model.addAttribute("product", product);
         return "createProduct";
@@ -37,5 +34,19 @@ public class ProductController {
         List<Product> allProducts = service.findAll();
         model.addAttribute("products", allProducts);
         return "productList";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editProductPage(@PathVariable String id, Model model) {
+        List<Product> allProducts = service.findAll();
+        Product productToEdit = allProducts.stream().filter(product -> product.getProductId().contains(id)).findFirst().orElse(null);
+        model.addAttribute("product", productToEdit);
+        return "editProduct";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editProductPost(@PathVariable String id, @ModelAttribute Product newProduct, Model model) {
+        service.edit(id, newProduct);
+        return "redirect:/product/list";
     }
 }
