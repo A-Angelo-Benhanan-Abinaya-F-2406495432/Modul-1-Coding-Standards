@@ -1,1 +1,3 @@
 # Modul-1-Coding-Standards
+
+Tutorial 1 ini mengajarkan saya banyak hal, terutama dalam clean code principles dan secure coding practices. Salah satu masalah yang saya alami adalah commit setelah semua selesai lalu push. Kebiasaan buruk tersebut masih sering muncul saat pengerjaan Tutorial 1 ini oleh saya. Dengan tutorial ini, saya diingatkan untuk menerapkan kebiasaan coding yang lebih baik dan aman; commit per sub-fitur/bagian fitur, bukan setelah fiturnya selesai.
