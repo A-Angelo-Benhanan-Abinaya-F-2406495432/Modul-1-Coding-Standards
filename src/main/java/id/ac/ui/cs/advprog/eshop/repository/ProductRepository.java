@@ -19,4 +19,12 @@ public class ProductRepository {
     public Iterator<Product> findAll() {
         return productData.iterator();
     }
+
+    public Product edit(String id, Product newProduct) {
+        Product edittedProduct = productData.stream().filter(product -> product.getProductId().equals(id)).findFirst().orElse(null);
+        newProduct.setProductId(id);
+        productData.set(productData.indexOf(edittedProduct), newProduct);
+        return newProduct;
+    }
+
 }
