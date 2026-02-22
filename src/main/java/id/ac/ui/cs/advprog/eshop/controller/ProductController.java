@@ -39,7 +39,7 @@ public class ProductController {
     @GetMapping("/edit/{id}")
     public String editProductPage(@PathVariable String id, Model model) {
         List<Product> allProducts = service.findAll();
-        Product productToEdit = allProducts.stream().filter(product -> product.getProductId().contains(id)).findFirst().orElse(null);
+        Product productToEdit = allProducts.stream().filter(product -> product.getProductId().equals(id)).findFirst().orElse(null);
         model.addAttribute("product", productToEdit);
         return "editProduct";
     }
