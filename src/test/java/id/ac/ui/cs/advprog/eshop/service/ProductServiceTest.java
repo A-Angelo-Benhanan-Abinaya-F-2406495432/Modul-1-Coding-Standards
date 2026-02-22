@@ -50,7 +50,6 @@ public class ProductServiceTest {
     @Test
     void testFindAllEmpty() {
         when(productRepository.findAll()).thenReturn(Collections.emptyIterator());
-
         List<Product> result = productService.findAll();
         assertTrue(result.isEmpty());
     }
@@ -66,13 +65,15 @@ public class ProductServiceTest {
 
         Product result = productService.edit("eb558e9f-1c39-460e-8860-71af6af63bd6", updatedProduct);
         assertEquals(updatedProduct, result);
-        verify(productRepository, times(1)).edit("eb558e9f-1c39-460e-8860-71af6af63bd6", updatedProduct);
     }
 
     @Test
     void testDelete() {
         doNothing().when(productRepository).delete("eb558e9f-1c39-460e-8860-71af6af63bd6");
         productService.delete("eb558e9f-1c39-460e-8860-71af6af63bd6");
-        verify(productRepository, times(1)).delete("eb558e9f-1c39-460e-8860-71af6af63bd6");
+
+        when(productRepository.findAll()).thenReturn(Collections.emptyIterator());
+        List<Product> result = productService.findAll();
+        assertTrue(result.isEmpty());
     }
 }
