@@ -24,20 +24,15 @@ jobs:
           cache: "gradle"
 
       - name: Run PMD
-        id: pmd
-        uses: pmd/pmd-github-action@967a81f8b657c87f7c3e96b62301cb1a48efef29
-        continue-on-error: true
-        with:
-          version: "7.0.0"
-          sourcePath: "src/main/java"
-          rulesets: "rulesets/java/quickstart.xml"
-          analyzeModifiedFilesOnly: false
+        run: ./gradlew pmdMain
 
-      - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: pmd-report.sarif
+      - name: Checks all files for debugging
+        if: always()
+        run: ls -la
 
-      - name: Fail build if there are violations
-        if: steps.pmd.outputs.violations != 0
-        run: exit 1
+      - name: Upload PMD report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmd-report
+          path: build/reports/pmd/
