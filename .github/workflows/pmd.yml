@@ -23,9 +23,13 @@ jobs:
         id: pmd
         continue-on-error: true
         with:
-          version: "7.6.0"
+          version: "7.0.0"
           sourcePath: "src/main/java"
           rulesets: "rulesets/java/quickstart.xml"
+
+      - name: Checks all files for debugging
+        if: always()
+        run: ls -la
 
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v3
