@@ -3,9 +3,6 @@ name: PMD Code Scanning
 on:
   push:
 
-permissions:
-  security-events: write
-
 jobs:
   pmd:
     name: Run code scanning
@@ -28,11 +25,11 @@ jobs:
         with:
           version: "7.0.0-rc4"
           sourcePath: "src/main/java"
-          rulesets: "rulesets/java/quickstart.xml"
+          rulesets: "rulesets/java/quickstart.xml,ruleset.xml"
 
-      - name: Make report file
-        uses: github/codeql-action/upload-sarif@v3
-        if: always()
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v4
+        if: always() && steps.sarif_check.outputs.exists == 'true'
         with:
           sarif_file: pmd-report.sarif
 
