@@ -84,7 +84,7 @@ tasks.jacocoTestReport {
 
 pmd {
 	isConsoleOutput = true
-	toolVersion = "7.0.0"
+	toolVersion = "7.6.0"
 	rulesMinimumPriority = 5
 	ruleSets = listOf("category/java/bestpractices.xml", "category/java/errorprone.xml")
 }
