@@ -50,7 +50,7 @@ public class ProductControllerTest {
     @Test
     void testCreateProductPage_POST() {
         when(productService.create(product)).thenReturn(product);
-        String view = productController.createProductPost(product, model);
+        String view = productController.createProductPost(product);
 
         assertEquals("redirect:list", view);
         verify(productService, times(1)).create(product);
@@ -73,7 +73,7 @@ public class ProductControllerTest {
         updatedProduct.setProductQuantity(200);
 
         when(productService.edit("eb558e9f-1c39-460e-8860-71af6af63bd6", updatedProduct)).thenReturn(updatedProduct);
-        String view = productController.editProductPost("eb558e9f-1c39-460e-8860-71af6af63bd6",updatedProduct,  model);
+        String view = productController.editProductPost("eb558e9f-1c39-460e-8860-71af6af63bd6",updatedProduct);
 
         assertEquals("redirect:/product/list", view);
         verify(productService, times(1)).edit("eb558e9f-1c39-460e-8860-71af6af63bd6", updatedProduct);
@@ -111,7 +111,7 @@ public class ProductControllerTest {
     @Test
     void testDeleteProduct_POST() {
         doNothing().when(productService).delete("eb558e9f-1c39-460e-8860-71af6af63bd6");
-        String view = productController.deleteProductPost("eb558e9f-1c39-460e-8860-71af6af63bd6", model);
+        String view = productController.deleteProductPost("eb558e9f-1c39-460e-8860-71af6af63bd6");
 
         assertEquals("redirect:/product/list", view);
         verify(productService, times(1)).delete("eb558e9f-1c39-460e-8860-71af6af63bd6");

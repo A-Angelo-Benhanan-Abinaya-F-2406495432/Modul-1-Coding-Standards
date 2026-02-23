@@ -86,5 +86,9 @@ pmd {
 	isConsoleOutput = true
 	toolVersion = "7.0.0"
 	rulesMinimumPriority = 5
-	ruleSets = listOf("category/java/bestpractices.xml", "category/java/errorprone.xml")
+	ruleSets = listOf(
+		"category/java/bestpractices.xml",
+		"category/java/errorprone.xml",
+		"category/java/codestyle.xml",
+	)
 }
