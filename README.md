@@ -10,8 +10,7 @@ Tutorial 1 ini mengajarkan saya banyak hal, terutama dalam clean code principles
 
 # Module 2: Implementing CI/CD using Gradle & GitHub Actions
 
-### 1. List the code quality issue(s) that you fixed during the exercise and explain your strategy
-on fixing them.
+### 1. List the code quality issue(s) that you fixed during the exercise and explain your strategy on fixing them.
 
 Issue-issue code quality yang saya temui dan atasi serta cara saya mengatasi issue-issue tersebut adalah sebagai berikut:
 - Beberapa class tidak memiliki constructor -> Menggunakan @NoArgsConstructor untuk menunjukkan bahwa class tersebut tidak membutuhkan sebuah constructor.
@@ -19,8 +18,6 @@ Issue-issue code quality yang saya temui dan atasi serta cara saya mengatasi iss
 - Beberapa variable memiliki nama yang terlalu pendek -> Mengganti nama variable-variable tersebut dengan nama yang lebih panjang dan deskriptif.
 - Access modifier public yang redundant di class ProductService -> Menghapus access modifier tersebut.
 
-### 2. Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current
-implementation has met the definition of Continuous Integration and Continuous
-Deployment? Explain the reasons (minimum 3 sentences)!
+### 2. Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current implementation has met the definition of Continuous Integration and Continuous Deployment? Explain the reasons (minimum 3 sentences)!
 
 Berdasarkan workflow CI/CD pada GitHub, implementasi saya sudah memenuhi definisi Continuous Integration tetapi belum memenuhi untuk Continuous Deployment. Continuous Integration dikelola oleh ketiga file yang ada dalam .github/workflows; ci.yml, pmd.yml, dan scorecard.yml. Ketiga workflow tersebut bertugas untuk menganalisis dan mengevaluasi code yang ada pada setiap push dan pull request. Akan tetapi, ketiga workflow tersebut tidak melakukan Continuous Deployment. Tidak ada langkah yang membuat suatu deployable artifact dan mem-push-nya ke sebuah hosting platform seperti Render sehingga setiap deployment harus dilakukan secara manual. Oleh karena itu, implementasi saya pada saat ini belum memenuhi definisi dari Continuous Deployment.
