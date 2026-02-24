@@ -22,7 +22,7 @@ public class ProductController {
     public String createProductPage(final Model model) {
         final Product product = new Product();
         model.addAttribute("product", product);
-        return "createProduct";
+        return "CreateProduct";
     }
 
     @PostMapping("/create")
@@ -35,7 +35,7 @@ public class ProductController {
     public String productListPage(final Model model) {
         final List<Product> allProducts = service.findAll();
         model.addAttribute("products", allProducts);
-        return "productList";
+        return "ProductList";
     }
 
     @GetMapping("/edit/{productId}")
@@ -43,7 +43,7 @@ public class ProductController {
         final List<Product> allProducts = service.findAll();
         final Product productToEdit = allProducts.stream().filter(product -> product.getProductId().equals(productId)).findFirst().orElse(null);
         model.addAttribute("product", productToEdit);
-        return "editProduct";
+        return "EditProduct";
     }
 
     @PostMapping("/edit/{productId}")
