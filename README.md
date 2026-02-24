@@ -10,7 +10,7 @@ Tutorial 1 ini mengajarkan saya banyak hal, terutama dalam clean code principles
 
 # Module 2: Implementing CI/CD using Gradle & GitHub Actions
 
-1. List the code quality issue(s) that you fixed during the exercise and explain your strategy
+### 1. List the code quality issue(s) that you fixed during the exercise and explain your strategy
 on fixing them.
 
 Issue-issue code quality yang saya temui dan atasi serta cara saya mengatasi issue-issue tersebut adalah sebagai berikut:
@@ -19,7 +19,7 @@ Issue-issue code quality yang saya temui dan atasi serta cara saya mengatasi iss
 - Beberapa variable memiliki nama yang terlalu pendek -> Mengganti nama variable-variable tersebut dengan nama yang lebih panjang dan deskriptif.
 - Access modifier public yang redundant di class ProductService -> Menghapus access modifier tersebut.
 
-3. Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current
+### 2. Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current
 implementation has met the definition of Continuous Integration and Continuous
 Deployment? Explain the reasons (minimum 3 sentences)!
 
