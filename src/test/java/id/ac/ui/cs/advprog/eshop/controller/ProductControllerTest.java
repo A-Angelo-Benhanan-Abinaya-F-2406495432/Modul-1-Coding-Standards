@@ -43,7 +43,7 @@ public class ProductControllerTest {
     void testCreateProductPage_GET() {
         String view = productController.createProductPage(model);
 
-        assertEquals("createProduct", view);
+        assertEquals("CreateProduct", view);
         verify(model, times(1)).addAttribute(eq("product"), any(Product.class));
     }
 
@@ -61,7 +61,7 @@ public class ProductControllerTest {
         when(productService.findAll()).thenReturn(List.of(product));
         String view = productController.editProductPage("eb558e9f-1c39-460e-8860-71af6af63bd6", model);
 
-        assertEquals("editProduct", view);
+        assertEquals("EditProduct", view);
         verify(model, times(1)).addAttribute("product", product);
     }
 
@@ -84,7 +84,7 @@ public class ProductControllerTest {
         when(productService.findAll()).thenReturn(List.of());
         String view = productController.editProductPage("12345", model);
 
-        assertEquals("editProduct", view);
+        assertEquals("EditProduct", view);
         verify(model, times(1)).addAttribute("product", null);
     }
 
@@ -94,7 +94,7 @@ public class ProductControllerTest {
         when(productService.findAll()).thenReturn(productList);
         String view = productController.productListPage(model);
 
-        assertEquals("productList", view);
+        assertEquals("ProductList", view);
         verify(model, times(1)).addAttribute("products", productList);
     }
 
@@ -104,7 +104,7 @@ public class ProductControllerTest {
         when(productService.findAll()).thenReturn(productList);
         String view = productController.productListPage(model);
 
-        assertEquals("productList", view);
+        assertEquals("ProductList", view);
         verify(model, times(1)).addAttribute("products", productList);
     }
 

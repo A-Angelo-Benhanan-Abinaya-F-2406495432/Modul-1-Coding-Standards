@@ -24,6 +24,6 @@ public class HomeControllerTest {
     void testHomePage_GET() {
         String view = homeController.homePage();
 
-        assertEquals("home", view);
+        assertEquals("Home", view);
     }
 }
