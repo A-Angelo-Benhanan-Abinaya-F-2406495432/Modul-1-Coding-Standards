@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.util.UUID;
 
+@SuppressWarnings("PMD.ShortClassName")
 @Getter @Setter
 public class Car {
     private String carId;
