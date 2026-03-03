@@ -7,12 +7,11 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 
 @NoArgsConstructor
 @Repository
 public class CarRepository {
-    static int id = 0;
+    private static int id = 0;
     private final List<Car> carData = new ArrayList<>();
 
     public Car create(final Car newCar) {
@@ -25,24 +24,26 @@ public class CarRepository {
     }
 
     public Car findById(final String carId) {
-        for (Car car : carData) {
+        Car carToFind = null;
+        for (final Car car : carData) {
             if (car.getCarId().equals(carId)) {
-                return car;
+                carToFind = car;
             }
         }
-        return null;
+        return carToFind;
     }
 
     public Car update(final String carId, final Car updatedCar) {
-        for (Car car : carData) {
+        Car carToUpdate = null;
+        for (final Car car : carData) {
             if (car.getCarId().equals(carId)) {
                 car.setCarName(updatedCar.getCarName());
                 car.setCarColor(updatedCar.getCarColor());
                 car.setCarQuantity(updatedCar.getCarQuantity());
-                return car;
+                carToUpdate = car;
             }
         }
-        return null;
+        return carToUpdate;
     }
 
     public void delete(final String carId) {
