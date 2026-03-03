@@ -1,0 +1,38 @@
+name: PMD Code Scanning
+
+on:
+  push:
+
+jobs:
+  pmd-code-scan:
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+
+    name: Run code scanning
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out the Git repository
+        uses: actions/checkout@v4
+
+      - name: Set up java toolchain
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+          cache: "gradle"
+
+      - name: Run PMD
+        run: ./gradlew pmdMain
+
+      - name: Checks all files for debugging
+        if: always()
+        run: ls -la
+
+      - name: Upload PMD report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmd-report
+          path: build/reports/pmd/

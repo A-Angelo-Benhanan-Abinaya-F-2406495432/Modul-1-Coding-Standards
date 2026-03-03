@@ -5,6 +5,8 @@ val junitJupiterVersion = "5.9.1"
 
 plugins {
 	java
+	jacoco
+	pmd
 	id("org.springframework.boot") version "3.2.2"
 	id("io.spring.dependency-management") version "1.1.7"
 }
@@ -66,4 +68,27 @@ tasks.register<Test>("functionalTest") {
 
 tasks.withType<Test>().configureEach {
 	useJUnitPlatform()
+}
+
+tasks.test {
+	filter {
+		excludeTestsMatching("*FunctionalTest")
+	}
+
+	finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+	dependsOn(tasks.test)
+}
+
+pmd {
+	isConsoleOutput = true
+	toolVersion = "7.0.0"
+	rulesMinimumPriority = 5
+	ruleSets = listOf(
+		"category/java/bestpractices.xml",
+		"category/java/errorprone.xml",
+		"category/java/codestyle.xml",
+	)
 }
