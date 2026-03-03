@@ -10,7 +10,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Repository
-public class CarRepository {
+public class CarRepository implements CarRepositoryInterface {
     @SuppressWarnings({"PMD.UnusedLocalVariable", "PMD.ShortVariable"})
     private static int id = 0;
     private final List<Car> carData = new ArrayList<>();

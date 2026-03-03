@@ -10,7 +10,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Repository
-public class ProductRepository {
+public class ProductRepository implements ProductRepositoryInterface {
     private final List<Product> productData = new ArrayList<>();
 
     public Product create(final Product product) {
