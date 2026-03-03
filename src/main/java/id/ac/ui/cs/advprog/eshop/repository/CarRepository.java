@@ -15,15 +15,18 @@ public class CarRepository implements CarRepositoryInterface {
     private static int id = 0;
     private final List<Car> carData = new ArrayList<>();
 
+    @Override
     public Car create(final Car newCar) {
         carData.add(newCar);
         return newCar;
     }
 
+    @Override
     public Iterator<Car> findAll() {
         return carData.iterator();
     }
 
+    @Override
     public Car findById(final String carId) {
         Car carToFind = null;
         for (final Car car : carData) {
@@ -34,6 +37,7 @@ public class CarRepository implements CarRepositoryInterface {
         return carToFind;
     }
 
+    @Override
     public Car update(final String carId, final Car updatedCar) {
         Car carToUpdate = null;
         for (final Car car : carData) {
@@ -47,6 +51,7 @@ public class CarRepository implements CarRepositoryInterface {
         return carToUpdate;
     }
 
+    @Override
     public void delete(final String carId) {
         carData.removeIf(car -> car.getCarId().equals(carId));
     }
