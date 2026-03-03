@@ -10,20 +10,23 @@ import java.util.List;
 
 @NoArgsConstructor
 @Repository
-public class CarRepository {
+public class CarRepository implements CarRepositoryInterface {
     @SuppressWarnings({"PMD.UnusedLocalVariable", "PMD.ShortVariable"})
     private static int id = 0;
     private final List<Car> carData = new ArrayList<>();
 
+    @Override
     public Car create(final Car newCar) {
         carData.add(newCar);
         return newCar;
     }
 
+    @Override
     public Iterator<Car> findAll() {
         return carData.iterator();
     }
 
+    @Override
     public Car findById(final String carId) {
         Car carToFind = null;
         for (final Car car : carData) {
@@ -34,6 +37,7 @@ public class CarRepository {
         return carToFind;
     }
 
+    @Override
     public Car update(final String carId, final Car updatedCar) {
         Car carToUpdate = null;
         for (final Car car : carData) {
@@ -47,6 +51,7 @@ public class CarRepository {
         return carToUpdate;
     }
 
+    @Override
     public void delete(final String carId) {
         carData.removeIf(car -> car.getCarId().equals(carId));
     }
