@@ -132,9 +132,7 @@ public class ProductRepositoryTest {
         product1.setProductName("Sampo Cap Bambang");
         product1.setProductQuantity(100);
         productRepository.create(product1);
-
         productRepository.delete("eb558e9f-1c39-460e-8860-71af6af63bd6");
-
         List<Product> productList = new ArrayList<>();
         Iterator<Product> productIterator = productRepository.findAll();
         productIterator.forEachRemaining(productList::add);
