@@ -21,3 +21,29 @@ Issue-issue code quality yang saya temui dan atasi serta cara saya mengatasi iss
 ### 2. Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current implementation has met the definition of Continuous Integration and Continuous Deployment? Explain the reasons (minimum 3 sentences)!
 
 Berdasarkan workflow CI/CD pada GitHub, implementasi saya sudah memenuhi definisi Continuous Integration tetapi belum memenuhi untuk Continuous Deployment. Continuous Integration dikelola oleh ketiga file yang ada dalam .github/workflows; ci.yml, pmd.yml, dan scorecard.yml. Ketiga workflow tersebut bertugas untuk menganalisis dan mengevaluasi code yang ada pada setiap push dan pull request. Akan tetapi, ketiga workflow tersebut tidak melakukan Continuous Deployment. Tidak ada langkah yang membuat suatu deployable artifact dan mem-push-nya ke sebuah hosting platform seperti Render sehingga setiap deployment harus dilakukan secara manual. Oleh karena itu, implementasi saya pada saat ini belum memenuhi definisi dari Continuous Deployment.
+
+# Module 3: OO Principles & Software Maintainability
+
+## 1) Explain what principles you apply to your project!
+### ● SRP
+SRP adalah principle di mana suatu class hanya memiliki satu fungsi. Principle ini diterapkan pada class ProductController di mana ProductController (untuk Product dan Car) dipecah menjadi ProductController (untuk Product) dan CarController (untuk Car).
+
+### ● OCP
+OCP adalah principle di mana class/function/module/dll dapat dikembangkan via extension tetapi tidak dimodifikasi langsung. Principle ini diterapkan pada repository dan service di mana terdapat interface yang diimplement concrete class.
+
+### ● LSP
+LSP adalah principle di mana superclass bisa diganti dengan subclassnya tanpa perlu ada perubahan program. Principle ini diterapkan pada penghapusan 'extends ProductController' pada CarController karena ProductController tidak bisa diganti dengan CarController.
+
+### ● ISP
+ISP adalah principle di mana suatu interface besar dipecah menjadi interface-interface kecil yang lebih spesifik. Principle ini diterapkan pada interface repository dan service di mana interface CarService dan ProductService serta CarRepositoryInterface dan ProductRepositoryInterface terpisah karena keduanya tidak memiliki tugas yang overlapping.
+
+### ● DIP
+DIP adalah principle di mana high-level module tidak dependent pada low-level module. Principle ini diterapkan pada kedua concrete class service yang dependant dengan interface repository dan bukan implementasi concretenya.
+
+## 2) Explain the advantages of applying SOLID principles to your project with examples.
+
+Dengan menerapkan SOLID principles, pengembangan dan maintenance program dapat dilakukan dengan lebih mudah. Karena module-module dependant dengan interface spesifik dan perkembangan dilakukan dengan extension, perubahan pada concrete class tidak akan menyebabkan error. Perubahan yang dilakukan seorang developer pada suatu file tidak akan mengganggu kerja developer lain karena mereka bekerja pada file yang berbeda. Selain itu, testing juga dapat dilakukan dengan lebih mudah karena spesifiknya module-module.
+
+## 3) Explain the disadvantages of not applying SOLID principles to your project with examples.
+
+Jika tidak menerapkan SOLID principles, program dapat dengan mudah menjadi terlalu kompleks dan sulit dibaca dan di-debug. Error kecil pada suatu module dapat menyebabkan chain reaction yang membuat error besar di module lain. Selain itu, akan sering terjadi merge conflict saat 2+ developer berbeda melakukan perubahan pada file yang sama, meskipun function yang diubah berbeda.
