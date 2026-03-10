@@ -27,8 +27,10 @@ import static org.mockito.Mockito.*;
 public class PaymentServiceImplTest {
     @InjectMocks
     PaymentServiceImpl paymentService;
+
     @Mock
     PaymentRepository paymentRepository;
+
     @Mock
     OrderService orderService;
 
@@ -49,7 +51,8 @@ public class PaymentServiceImplTest {
     void testAddPaymentValidVoucherCode() {
         Map<String, String> paymentData = new HashMap<>();
         paymentData.put("voucherCode", "ESHOP1234ABC5678");
-        doReturn(new Payment("pay-001", "VOUCHER", paymentData)).when(paymentRepository).save(any(Payment.class));
+        Payment payment = new Payment("pay-001", "VOUCHER", paymentData, PaymentStatus.SUCCESS.getValue());
+        doReturn(payment).when(paymentRepository).save(any(Payment.class));
 
         Payment result = paymentService.addPayment(order, "VOUCHER", paymentData);
         assertEquals(PaymentStatus.SUCCESS.getValue(), result.getStatus());
@@ -60,9 +63,10 @@ public class PaymentServiceImplTest {
     void testAddPaymentInvalidVoucherCodeWrongLength() {
         Map<String, String> paymentData = new HashMap<>();
         paymentData.put("voucherCode", "ESHOP123");
-        doReturn(new Payment("pay-002", "VOUCHER", paymentData)).when(paymentRepository).save(any(Payment.class));
-        Payment result = paymentService.addPayment(order, "VOUCHER", paymentData);
+        Payment payment = new Payment("pay-002", "VOUCHER", paymentData, PaymentStatus.REJECTED.getValue());
+        doReturn(payment).when(paymentRepository).save(any(Payment.class));
 
+        Payment result = paymentService.addPayment(order, "VOUCHER", paymentData);
         assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
     }
 
@@ -70,7 +74,8 @@ public class PaymentServiceImplTest {
     void testAddPaymentInvalidVoucherCodeWrongPrefix() {
         Map<String, String> paymentData = new HashMap<>();
         paymentData.put("voucherCode", "WRONG1234ABC5678");
-        doReturn(new Payment("pay-003", "VOUCHER", paymentData)).when(paymentRepository).save(any(Payment.class));
+        Payment payment = new Payment("pay-003", "VOUCHER", paymentData, PaymentStatus.REJECTED.getValue());
+        doReturn(payment).when(paymentRepository).save(any(Payment.class));
 
         Payment result = paymentService.addPayment(order, "VOUCHER", paymentData);
         assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
@@ -80,7 +85,8 @@ public class PaymentServiceImplTest {
     void testAddPaymentInvalidVoucherCodeInsufficientDigits() {
         Map<String, String> paymentData = new HashMap<>();
         paymentData.put("voucherCode", "ESHOP1234ABCDEFG");
-        doReturn(new Payment("pay-004", "VOUCHER", paymentData)).when(paymentRepository).save(any(Payment.class));
+        Payment payment = new Payment("pay-004", "VOUCHER", paymentData, PaymentStatus.REJECTED.getValue());
+        doReturn(payment).when(paymentRepository).save(any(Payment.class));
 
         Payment result = paymentService.addPayment(order, "VOUCHER", paymentData);
         assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
@@ -91,11 +97,10 @@ public class PaymentServiceImplTest {
         Map<String, String> paymentData = new HashMap<>();
         paymentData.put("bankName", "BCA");
         paymentData.put("referenceCode", "REF123456");
-        doReturn(new Payment("pay-005", "BANK_TRANSFER", paymentData))
-                .when(paymentRepository).save(any(Payment.class));
+        Payment payment = new Payment("pay-005", "BANK_TRANSFER", paymentData, PaymentStatus.SUCCESS.getValue());
+        doReturn(payment).when(paymentRepository).save(any(Payment.class));
 
         Payment result = paymentService.addPayment(order, "BANK_TRANSFER", paymentData);
-
         assertEquals(PaymentStatus.SUCCESS.getValue(), result.getStatus());
     }
 
@@ -104,10 +109,10 @@ public class PaymentServiceImplTest {
         Map<String, String> paymentData = new HashMap<>();
         paymentData.put("bankName", "");
         paymentData.put("referenceCode", "REF123456");
-        doReturn(new Payment("pay-006", "BANK_TRANSFER", paymentData)).when(paymentRepository).save(any(Payment.class));
+        Payment payment = new Payment("pay-006", "BANK_TRANSFER", paymentData, PaymentStatus.REJECTED.getValue());
+        doReturn(payment).when(paymentRepository).save(any(Payment.class));
 
         Payment result = paymentService.addPayment(order, "BANK_TRANSFER", paymentData);
-
         assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
     }
 
@@ -116,7 +121,8 @@ public class PaymentServiceImplTest {
         Map<String, String> paymentData = new HashMap<>();
         paymentData.put("bankName", "BCA");
         paymentData.put("referenceCode", null);
-        doReturn(new Payment("pay-007", "BANK_TRANSFER", paymentData)).when(paymentRepository).save(any(Payment.class));
+        Payment payment = new Payment("pay-007", "BANK_TRANSFER", paymentData, PaymentStatus.REJECTED.getValue());
+        doReturn(payment).when(paymentRepository).save(any(Payment.class));
 
         Payment result = paymentService.addPayment(order, "BANK_TRANSFER", paymentData);
         assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
@@ -127,10 +133,11 @@ public class PaymentServiceImplTest {
         Map<String, String> paymentData = new HashMap<>();
         paymentData.put("voucherCode", "ESHOP1234ABC5678");
         Payment payment = new Payment("pay-008", "VOUCHER", paymentData);
-
+        Payment newPayment = new Payment("pay-008", "VOUCHER", paymentData,
+                PaymentStatus.SUCCESS.getValue());
         doReturn(payment).when(paymentRepository).save(any(Payment.class));
         paymentService.addPayment(order, "VOUCHER", paymentData);
-        doReturn(payment).when(paymentRepository).save(payment);
+        doReturn(newPayment).when(paymentRepository).save(any(Payment.class));
 
         Payment result = paymentService.setStatus(payment, PaymentStatus.SUCCESS.getValue());
         assertEquals(PaymentStatus.SUCCESS.getValue(), result.getStatus());
@@ -142,13 +149,12 @@ public class PaymentServiceImplTest {
         Map<String, String> paymentData = new HashMap<>();
         paymentData.put("voucherCode", "ESHOP1234ABC5678");
         Payment payment = new Payment("pay-009", "VOUCHER", paymentData);
-
+        Payment newPayment = new Payment("pay-009", "VOUCHER", paymentData, PaymentStatus.REJECTED.getValue());
         doReturn(payment).when(paymentRepository).save(any(Payment.class));
         paymentService.addPayment(order, "VOUCHER", paymentData);
-        doReturn(payment).when(paymentRepository).save(payment);
+        doReturn(newPayment).when(paymentRepository).save(any(Payment.class));
 
         Payment result = paymentService.setStatus(payment, PaymentStatus.REJECTED.getValue());
-
         assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
         verify(orderService, times(1)).updateStatus(order.getId(), OrderStatus.FAILED.getValue());
     }
@@ -167,6 +173,7 @@ public class PaymentServiceImplTest {
     @Test
     void testGetPaymentIfNotFound() {
         doReturn(null).when(paymentRepository).findById("zczc");
+
         assertNull(paymentService.getPayment("zczc"));
     }
 
