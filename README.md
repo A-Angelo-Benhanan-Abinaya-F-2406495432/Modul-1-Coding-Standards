@@ -47,3 +47,30 @@ Dengan menerapkan SOLID principles, pengembangan dan maintenance program dapat d
 ## 3) Explain the disadvantages of not applying SOLID principles to your project with examples.
 
 Jika tidak menerapkan SOLID principles, program dapat dengan mudah menjadi terlalu kompleks dan sulit dibaca dan di-debug. Error kecil pada suatu module dapat menyebabkan chain reaction yang membuat error besar di module lain. Selain itu, akan sering terjadi merge conflict saat 2+ developer berbeda melakukan perubahan pada file yang sama, meskipun function yang diubah berbeda.
+
+# Module 4: Test-Driven Development & Refactoring
+
+## 1. Reflection Based On Percival (2017) Proposed Self-Reflective Questions
+
+### Correctness
+Mengenai objektif correctness, objektif ini belum sepenuhnya terpenuhi. Belum ada functional test yang diimplementasi dan tidak semua edge case di-testing. Akan tetapi, sudah ada unit test yang diimplementasi.
+
+### Maintainability
+Mengenai objektif maintainability, objektif ini sudah cukup terpenuhi. Banyak penggunaan interface dan enum pada code yang memudahkan refactoring. Akan tetapi, menurut saya, terdapat beberapa bagian yang masih bisa dipecah untuk mengurangi kemungkinan terjadinya error, terutama di bagian Payment.
+
+### Productive Workflow
+Mengenai objektif productive workflow, objektif ini sudah cukup terpenuhi. Unit test yang ada sudah cukup cepat dan meng-cover bug-bug yang dapat terjadi. Akan tetapi, terdapat beberapa bagian yang mungkin dapat di-refactor untuk meningkatkan readability dan kecepatan unit test.
+
+## 2. Reflection On Whether My Tests Have Successfully Followed F.I.R.S.T. Principle
+
+### Fast
+Mengenai prinsip fast, prinsip ini sudah cukup terpenuhi. Unit test berjalan dengan cepat (hanya dalam sekitar 2 detik). Selain itu, penggunaan mockito menghindari pemanggilan database yang dapat memakan waktu (meskipun program tidak dihubungkan ke database).
+
+### Isolated/Independent
+Mengenai prinsip isolated/independent, prinsip ini sudah cukup terpenuhi. Unit test saling independent tanpa penggunaan code yang sama. Akan tetapi, terdapat penggunaan method addPayment oleh dua unit test pada PaymentServiceImplTest memungkinkan terjadinya error pada kedua unit test tersebut jika addPayment gagal/rusak.
+
+### Repeatable
+Mengenai prinsip repeatable, prinsip ini sudah cukup terpenuhi. Penggunaan mocking dengan doReturn() memungkinkan pendapatan hasil yang sama meskipun dijalankan berulang kali.
+
+### Thorough/Timely
+Mengenai prinsip thorough/timely, prinsip ini sudah cukup terpenuhi. Unit test meng-cover happy dan unhappy path serta seluruh kemungkinan error.
