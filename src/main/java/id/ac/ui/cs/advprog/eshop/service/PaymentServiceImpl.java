@@ -1,6 +1,7 @@
 package id.ac.ui.cs.advprog.eshop.service;
 
 import id.ac.ui.cs.advprog.eshop.enums.OrderStatus;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentMethod;
 import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
@@ -47,7 +48,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     private String resolveStatus(String method, Map<String, String> paymentData) {
-        if ("VOUCHER".equals(method)) {
+        if (PaymentMethod.VOUCHER.getValue().equals(method)) {
             if (validateVoucherCode(paymentData.get("voucherCode"))) {
                 return PaymentStatus.SUCCESS.getValue();
             } else {
@@ -55,7 +56,7 @@ public class PaymentServiceImpl implements PaymentService {
             }
         }
 
-        if ("BANK_TRANSFER".equals(method)) {
+        if (PaymentMethod.BANK_TRANSFER.getValue().equals(method)) {
             String bankName = paymentData.get("bankName");
             String referenceCode = paymentData.get("referenceCode");
             if (bankName == null || bankName.isEmpty() || referenceCode == null || referenceCode.isEmpty()) {
