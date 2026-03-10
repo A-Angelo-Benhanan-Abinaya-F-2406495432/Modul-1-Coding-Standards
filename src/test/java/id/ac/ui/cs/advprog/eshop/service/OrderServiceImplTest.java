@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-class OrderServiceTest {
+public class OrderServiceImplTest {
     @InjectMocks
     OrderServiceImpl orderService;
     @Mock
