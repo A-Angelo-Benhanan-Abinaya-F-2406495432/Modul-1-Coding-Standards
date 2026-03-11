@@ -8,24 +8,29 @@ import java.util.Map;
 
 @Getter @Setter
 public class Payment {
-    private String id;
+    private String paymentId;
     private String method;
     private String status;
     private Map<String, String> paymentData;
 
-    public Payment(String id, String method, Map<String, String> paymentData) {
-        this.id = id;
+    public Payment(final String paymentId, final String method, final Map<String, String> paymentData) {
+        this.paymentId = paymentId;
         this.method = method;
         this.status = PaymentStatus.WAITING.getValue();
         this.paymentData = paymentData;
     }
 
-    public Payment(String id, String method, Map<String, String> paymentData, String status) {
-        this(id, method, paymentData);
-        this.setStatus(status);
+    public Payment(final String paymentId, final String method, final Map<String, String> paymentData, final String status) {
+        this(paymentId, method, paymentData);
+
+        if (PaymentStatus.contains(status)) {
+            this.status = status;
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
-    public void setStatus(String status) {
+    public void setStatus(final String status) {
         if (PaymentStatus.contains(status)) {
             this.status = status;
         } else {

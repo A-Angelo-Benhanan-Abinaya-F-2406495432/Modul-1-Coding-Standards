@@ -51,13 +51,13 @@ public class OrderServiceImplTest {
 
         Order result = orderService.createOrder(order);
         verify(orderRepository, times(1)).save(order);
-        assertEquals(order.getId(), result.getId());
+        assertEquals(order.getOrderId(), result.getOrderId());
     }
 
     @Test
     void testCreateOrderIfAlreadyExists() {
         Order order = orders.get(1);
-        doReturn(order).when(orderRepository).findById(order.getId());
+        doReturn(order).when(orderRepository).findById(order.getOrderId());
 
         assertNull(orderService.createOrder(order));
         verify(orderRepository, times(0)).save(order);
@@ -66,14 +66,14 @@ public class OrderServiceImplTest {
     @Test
     void testUpdateStatus() {
         Order order = orders.get(1);
-        Order newOrder = new Order(order.getId(), order.getProducts(), order.getOrderTime(),
+        Order newOrder = new Order(order.getOrderId(), order.getProducts(), order.getOrderTime(),
                 order.getAuthor(), OrderStatus.SUCCESS.getValue());
-        doReturn(order).when(orderRepository).findById(order.getId());
+        doReturn(order).when(orderRepository).findById(order.getOrderId());
         doReturn(newOrder).when(orderRepository).save(any(Order.class));
 
-        Order result = orderService.updateStatus(order.getId(), OrderStatus.SUCCESS.getValue());
+        Order result = orderService.updateStatus(order.getOrderId(), OrderStatus.SUCCESS.getValue());
 
-        assertEquals(order.getId(), result.getId());
+        assertEquals(order.getOrderId(), result.getOrderId());
         assertEquals(OrderStatus.SUCCESS.getValue(), result.getStatus());
         verify(orderRepository, times(1)).save(any(Order.class));
     }
@@ -81,10 +81,10 @@ public class OrderServiceImplTest {
     @Test
     void testUpdateStatusInvalidStatus() {
         Order order = orders.get(1);
-        doReturn(order).when(orderRepository).findById(order.getId());
+        doReturn(order).when(orderRepository).findById(order.getOrderId());
 
         assertThrows(IllegalArgumentException.class,
-                () -> orderService.updateStatus(order.getId(), "MEOW"));
+                () -> orderService.updateStatus(order.getOrderId(), "MEOW"));
 
         verify(orderRepository, times(0)).save(any(Order.class));
     }
@@ -102,10 +102,10 @@ public class OrderServiceImplTest {
     @Test
     void testFindByIdIfIdFound() {
         Order order = orders.get(1);
-        doReturn(order).when(orderRepository).findById(order.getId());
+        doReturn(order).when(orderRepository).findById(order.getOrderId());
 
-        Order result = orderService.findById(order.getId());
-        assertEquals(order.getId(), result.getId());
+        Order result = orderService.findById(order.getOrderId());
+        assertEquals(order.getOrderId(), result.getOrderId());
     }
 
     @Test

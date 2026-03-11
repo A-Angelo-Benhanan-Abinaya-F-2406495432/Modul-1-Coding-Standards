@@ -1,44 +1,51 @@
 package id.ac.ui.cs.advprog.eshop.repository;
 
 import id.ac.ui.cs.advprog.eshop.model.Order;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor
 @Repository
 public class OrderRepository {
     private final List<Order> orderData = new ArrayList<>();
 
-    public Order save(Order order) {
-        int i = 0;
-        for (Order savedOrder : orderData) {
-            if (savedOrder.getId().equals(order.getId())) {
-                orderData.remove(i);
-                orderData.add(i, order);
-                return order;
+    public Order save(final Order order) {
+        boolean found = false;
+        int index = 0;
+        for (final Order orderChecked : orderData) {
+            if (orderChecked.getOrderId().equals(order.getOrderId())) {
+                orderData.set(index, order);
+                found = true;
+                break;
             }
-            i += 1;
+            index += 1;
         }
 
-        orderData.add(order);
+        if (!found) {
+            orderData.add(order);
+        }
+
         return order;
     }
 
-    public Order findById(String id) {
-        for (Order savedOrder : orderData) {
-            if (savedOrder.getId().equals(id)) {
-                return savedOrder;
+    public Order findById(final String orderId) {
+        Order orderToFind = null;
+        for (final Order orderChecked : orderData) {
+            if (orderChecked.getOrderId().equals(orderId)) {
+                orderToFind = orderChecked;
             }
         }
-        return null;
+        return orderToFind;
     }
 
-    public List<Order> findAllByAuthor(String author) {
-        List<Order> result = new ArrayList<>();
-        for (Order savedOrder : orderData) {
-            if (savedOrder.getAuthor().equals(author)) {
-                result.add(savedOrder);
+    public List<Order> findAllByAuthor(final String author) {
+        final List<Order> result = new ArrayList<>();
+        for (final Order orderChecked : orderData) {
+            if (orderChecked.getAuthor().equals(author)) {
+                result.add(orderChecked);
             }
         }
         return result;

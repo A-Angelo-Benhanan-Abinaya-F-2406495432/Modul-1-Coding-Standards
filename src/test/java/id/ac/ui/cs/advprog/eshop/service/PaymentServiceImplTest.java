@@ -140,9 +140,9 @@ public class PaymentServiceImplTest {
         paymentService.addPayment(order, PaymentMethod.VOUCHER.getValue(), paymentData);
         doReturn(newPayment).when(paymentRepository).save(any(Payment.class));
 
-        Payment result = paymentService.setStatus(payment, PaymentStatus.SUCCESS.getValue());
-        assertEquals(PaymentStatus.SUCCESS.getValue(), result.getStatus());
-        verify(orderService, times(1)).updateStatus(order.getId(), OrderStatus.SUCCESS.getValue());
+        paymentService.setStatus(payment, PaymentStatus.SUCCESS.getValue());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
+        verify(orderService, times(1)).updateStatus(order.getOrderId(), OrderStatus.SUCCESS.getValue());
     }
 
     @Test
@@ -155,9 +155,9 @@ public class PaymentServiceImplTest {
         paymentService.addPayment(order, PaymentMethod.VOUCHER.getValue(), paymentData);
         doReturn(newPayment).when(paymentRepository).save(any(Payment.class));
 
-        Payment result = paymentService.setStatus(payment, PaymentStatus.REJECTED.getValue());
-        assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
-        verify(orderService, times(1)).updateStatus(order.getId(), OrderStatus.FAILED.getValue());
+        paymentService.setStatus(payment, PaymentStatus.REJECTED.getValue());
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
+        verify(orderService, times(1)).updateStatus(order.getOrderId(), OrderStatus.FAILED.getValue());
     }
 
     @Test
@@ -168,7 +168,7 @@ public class PaymentServiceImplTest {
         doReturn(payment).when(paymentRepository).findById("pay-010");
 
         Payment result = paymentService.getPayment("pay-010");
-        assertEquals("pay-010", result.getId());
+        assertEquals("pay-010", result.getPaymentId());
     }
 
     @Test
