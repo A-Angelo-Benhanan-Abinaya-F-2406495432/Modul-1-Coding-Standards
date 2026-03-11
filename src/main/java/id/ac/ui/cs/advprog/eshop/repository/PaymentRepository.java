@@ -1,31 +1,37 @@
 package id.ac.ui.cs.advprog.eshop.repository;
 
 import id.ac.ui.cs.advprog.eshop.model.Payment;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor
 @Repository
 public class PaymentRepository {
-    private List<Payment> payments = new ArrayList<>();
+    private final List<Payment> payments = new ArrayList<>();
 
-    public Payment save(Payment payment) {
+    public Payment save(final Payment payment) {
+        Payment savedPayment = null;
         for (int i = 0; i < payments.size(); i++) {
-            if (payments.get(i).getId().equals(payment.getId())) {
-                payments.set(i, payment);
-                return payment;
+            if (payments.get(i).getPaymentId().equals(payment.getPaymentId())) {
+                savedPayment = payment;
+                payments.set(i, savedPayment);
             }
         }
-        payments.add(payment);
-        return payment;
+        payments.add(savedPayment);
+        return savedPayment;
     }
 
-    public Payment findById(String id) {
-        for (Payment p : payments) {
-            if (p.getId().equals(id)) return p;
+    public Payment findById(final String paymentId) {
+        Payment paymentToFind = null;
+        for (final Payment payment : payments) {
+            if (payment.getPaymentId().equals(paymentId)) {
+                paymentToFind = payment;
+            }
         }
-        return null;
+        return paymentToFind;
     }
 
     public List<Payment> findAll() {

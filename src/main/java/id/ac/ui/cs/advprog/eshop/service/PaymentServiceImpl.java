@@ -6,6 +6,7 @@ import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
 import id.ac.ui.cs.advprog.eshop.repository.PaymentRepository;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
+@NoArgsConstructor
 @Service
 public class PaymentServiceImpl implements PaymentService {
     @Autowired
@@ -22,71 +23,71 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     private OrderService orderService;
 
-    private Map<String, Order> paymentOrderMap = new HashMap<>();
+    private final Map<String, Order> paymentOrderMap = new HashMap<>();
 
     @Override
-    public Payment addPayment(Order order, String method, Map<String, String> paymentData) {
-        Payment payment = new Payment(UUID.randomUUID().toString(), method, paymentData);
-        String status = resolveStatus(method, paymentData);
+    public Payment addPayment(final Order order, final String method, final Map<String, String> paymentData) {
+        final Payment payment = new Payment(UUID.randomUUID().toString(), method, paymentData);
+        final String status = resolveStatus(method, paymentData);
         payment.setStatus(status);
 
-        Payment savedPayment = paymentRepository.save(payment);
-        paymentOrderMap.put(savedPayment.getId(), order);
+        final Payment savedPayment = paymentRepository.save(payment);
+        paymentOrderMap.put(savedPayment.getPaymentId(), order);
         return savedPayment;
     }
 
-    private boolean validateVoucherCode(String code) {
-        if (code == null || code.length() != 16) {
-            return false;
+    private boolean validateVoucherCode(final String code) {
+        boolean codeIsValid;
+        if (code != null && code.length() == 16 && code.startsWith("ESHOP")) {
+            codeIsValid = code.chars().filter(Character::isDigit).count() == 8;
+        } else {
+            codeIsValid = false;
         }
 
-        if (!code.startsWith("ESHOP")) {
-            return false;
-        }
-
-        return code.chars().filter(Character::isDigit).count() == 8;
+        return codeIsValid;
     }
 
-    private String resolveStatus(String method, Map<String, String> paymentData) {
+    private String resolveStatus(final String method, final Map<String, String> paymentData) {
+        String paymentStatus = PaymentStatus.WAITING.getValue();
         if (PaymentMethod.VOUCHER.getValue().equals(method)) {
             if (validateVoucherCode(paymentData.get("voucherCode"))) {
-                return PaymentStatus.SUCCESS.getValue();
+                paymentStatus = PaymentStatus.SUCCESS.getValue();
             } else {
-                return PaymentStatus.REJECTED.getValue();
+                paymentStatus = PaymentStatus.REJECTED.getValue();
             }
         }
 
         if (PaymentMethod.BANK_TRANSFER.getValue().equals(method)) {
-            String bankName = paymentData.get("bankName");
-            String referenceCode = paymentData.get("referenceCode");
+            final String bankName = paymentData.get("bankName");
+            final String referenceCode = paymentData.get("referenceCode");
             if (bankName == null || bankName.isEmpty() || referenceCode == null || referenceCode.isEmpty()) {
-                return PaymentStatus.REJECTED.getValue();
+                paymentStatus = PaymentStatus.REJECTED.getValue();
             } else {
-                return PaymentStatus.SUCCESS.getValue();
+                paymentStatus = PaymentStatus.SUCCESS.getValue();
             }
         }
 
-        return PaymentStatus.WAITING.getValue();
+        return paymentStatus;
     }
 
     @Override
-    public Payment setStatus(Payment payment, String status) {
+    public void setStatus(final Payment payment, final String status) {
         payment.setStatus(status);
 
-        Order relatedOrder = paymentOrderMap.get(payment.getId());
+        final Order relatedOrder = paymentOrderMap.get(payment.getPaymentId());
         if (relatedOrder != null) {
             if (PaymentStatus.SUCCESS.getValue().equals(status)) {
-                orderService.updateStatus(relatedOrder.getId(), OrderStatus.SUCCESS.getValue());
+                orderService.updateStatus(relatedOrder.getOrderId(), OrderStatus.SUCCESS.getValue());
             } else if (PaymentStatus.REJECTED.getValue().equals(status)) {
-                orderService.updateStatus(relatedOrder.getId(), OrderStatus.FAILED.getValue());
+                orderService.updateStatus(relatedOrder.getOrderId(), OrderStatus.FAILED.getValue());
             }
         }
 
-        return paymentRepository.save(payment);
+        paymentRepository.save(payment);
     }
 
     @Override
-    public Payment getPayment(String paymentId) {
+    public Payment getPayment(final String paymentId) {
         return paymentRepository.findById(paymentId);
     }
 

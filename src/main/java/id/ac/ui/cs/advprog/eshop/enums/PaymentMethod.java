@@ -9,14 +9,7 @@ public enum PaymentMethod {
 
     private final String value;
 
-    private PaymentMethod(String value) {
+    PaymentMethod(final String value) {
         this.value = value;
-    }
-
-    public static boolean contains(String param) {
-        for (PaymentMethod method : PaymentMethod.values()) {
-            if (method.getValue().equals(param)) return true;
-        }
-        return false;
     }
 }

@@ -9,14 +9,14 @@ import java.util.List;
 @Getter
 @Setter
 public class Order {
-    String id;
-    List<Product> products;
-    Long orderTime;
-    String author;
-    String status;
+    private String orderId;
+    private List<Product> products;
+    private Long orderTime;
+    private String author;
+    private String status;
 
-    public Order(String id, List<Product> products, Long orderTime, String author) {
-        this.id = id;
+    public Order(final String orderId, final List<Product> products, final Long orderTime, final String author) {
+        this.orderId = orderId;
         this.orderTime = orderTime;
         this.author = author;
         this.status = OrderStatus.WAITING_PAYMENT.getValue();
@@ -28,12 +28,17 @@ public class Order {
         }
     }
 
-    public Order(String id, List<Product> products, Long orderTime, String author, String status) {
-        this(id, products, orderTime, author);
-        this.setStatus(status);
+    public Order(final String orderId, final List<Product> products, final Long orderTime, final String author, final String status) {
+        this(orderId, products, orderTime, author);
+
+        if (OrderStatus.contains(status)) {
+            this.status = status;
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
-    public void setStatus(String status) {
+    public void setStatus(final String status) {
         if (OrderStatus.contains(status)) {
             this.status = status;
         } else {

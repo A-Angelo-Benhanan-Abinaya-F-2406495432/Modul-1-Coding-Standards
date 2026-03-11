@@ -23,7 +23,7 @@ public class PaymentTest {
         paymentData.put("voucherCode", "ESHOP1234ABC5678");
         Payment payment = new Payment("pay-001", "VOUCHER", paymentData);
 
-        assertEquals("pay-001", payment.getId());
+        assertEquals("pay-001", payment.getPaymentId());
         assertEquals("VOUCHER", payment.getMethod());
         assertSame(paymentData, payment.getPaymentData());
         assertEquals("WAITING", payment.getStatus());
@@ -35,7 +35,7 @@ public class PaymentTest {
         paymentData.put("referenceCode", "REF123456");
         Payment payment = new Payment("pay-002", "BANK_TRANSFER", paymentData);
 
-        assertEquals("pay-002", payment.getId());
+        assertEquals("pay-002", payment.getPaymentId());
         assertEquals("BANK_TRANSFER", payment.getMethod());
         assertSame(paymentData, payment.getPaymentData());
         assertEquals(PaymentStatus.WAITING.getValue(), payment.getStatus());

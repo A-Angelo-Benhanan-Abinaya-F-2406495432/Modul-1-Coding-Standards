@@ -47,7 +47,7 @@ public class OrderTest {
         assertEquals("Sampo Cap Bambang", order.getProducts().get(0).getProductName());
         assertEquals("Sabun Cap Usep", order.getProducts().get(1).getProductName());
 
-        assertEquals("13652556-012a-4c07-b546-54eb1396d79b", order.getId());
+        assertEquals("13652556-012a-4c07-b546-54eb1396d79b", order.getOrderId());
         assertEquals(1708560000L, order.getOrderTime());
         assertEquals("Safira Sudrajat", order.getAuthor());
         assertEquals(OrderStatus.WAITING_PAYMENT.getValue(), order.getStatus());
