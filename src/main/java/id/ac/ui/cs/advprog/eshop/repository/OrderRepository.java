@@ -13,19 +13,22 @@ public class OrderRepository {
     private final List<Order> orderData = new ArrayList<>();
 
     public Order save(final Order order) {
-        Order savedOrder = null;
+        boolean found = false;
         int index = 0;
         for (final Order orderChecked : orderData) {
             if (orderChecked.getOrderId().equals(order.getOrderId())) {
-                savedOrder = order;
-                orderData.remove(index);
-                orderData.add(index, savedOrder);
+                orderData.set(index, order);
+                found = true;
+                break;
             }
             index += 1;
         }
 
-        orderData.add(savedOrder);
-        return savedOrder;
+        if (!found) {
+            orderData.add(order);
+        }
+
+        return order;
     }
 
     public Order findById(final String orderId) {
